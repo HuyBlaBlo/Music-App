@@ -6,5 +6,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="libs"/>
+	<classpathentry kind="lib" path="libs/jaudiotagger-3.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/jlayer-1.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/mp3agic-0.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
