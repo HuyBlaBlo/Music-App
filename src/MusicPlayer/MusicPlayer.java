@@ -4,28 +4,30 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackListener;
 
 public class MusicPlayer {
 	// this class to store our's song details
 	private Song currentSong;
 	
+	// use jLayer libary to create an AdvancePlayer obj which will handle  playing the musisc
+	private AdvancedPlayer advancedPlayer;
+	
+	// pause flag use to indicate whether the music player has been pause 
+	private boolean isPause;
 	//constructor
 	public MusicPlayer() {
 		
 	}
 	
-	// use jLayer libary to create an AdvancePlayer obj which will handle  playing the musisc
-	private AdvancedPlayer advancedPlayer;
-	
-	
-	public void loadSong(Song song) {
+	public void loadSong(Song song, PlaybackListener playbackListener) {
 		currentSong = song;
 		if(currentSong!=null) {
-			playCurrentSong();
+			playCurrentSong(playbackListener);
 		}
 	}
 	
-	public void playCurrentSong() {
+	public void playCurrentSong(PlaybackListener playbackListener) {
 		try {
 			
 			// read .mp3 audio data
@@ -35,6 +37,8 @@ public class MusicPlayer {
 			// create an advancePlayer with JLayer libary
 			advancedPlayer = new AdvancedPlayer(bufferedInputStream);
 			
+			// add PlayBackListener to advancedPlayer
+			advancedPlayer.setPlayBackListener(playbackListener);
 			//start music
 			startMusicThread();
 		} catch (Exception e) {
@@ -55,9 +59,22 @@ public class MusicPlayer {
 				}
 			}
 		}).start();;
-		
 	}
 	
+	public void pauseSong(){
+		if(advancedPlayer!=null) {
+			isPause = true;
+			// pausing song
+			stopSong();
+		}
+	}
+	public void stopSong() {
+		if(advancedPlayer!=null) {
+			advancedPlayer.stop();
+			advancedPlayer.close();
+			advancedPlayer = null;
+		}
+	}
 }
 
 
