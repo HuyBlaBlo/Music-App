@@ -63,6 +63,7 @@ public class MusicPlayerGUI extends JFrame{
 		// change the frame color
 		getContentPane().setBackground(FRAME_COLOR);
 		
+
 		jFileChooser = new JFileChooser();
 		// set defaule path for file explorer
 		jFileChooser.setCurrentDirectory(new File("src/asset"));

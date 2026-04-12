@@ -47,20 +47,25 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 			
 			player.pauseSong();
 		}
+		else if(object.equals(MusicPlayerGUI.PLAY_COMMAND)) {
+			// toggke on pause button and toggle off play button
+			gui.enablePauseAndDisablePlay();
+			
+			// play or resume song
+			player.playCurrentSong(this);
+		}
 	}
 	
 	// this method gets called when start the song
 	@Override
 	public void playbackFinished(PlaybackEvent evt) {
-		// TODO Auto-generated method stub
-		System.out.println("finished");
+		System.out.println("Finished");
 	}
 	
 	//this method gets called when the song finished or the player gets close
 	@Override
 	public void playbackStarted(PlaybackEvent evt) {
-		// TODO Auto-generated method stub
-		System.out.println("start");
+		System.out.println("Start");
 	}
 	
 	
