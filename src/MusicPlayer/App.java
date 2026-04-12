@@ -8,7 +8,7 @@ public class App {
 			
 			@Override
 			public void run() {
-				new MusicPlayer().setVisible(true);				
+				new MusicPlayerGUI().setVisible(true);				
 			}
 		});
 	}
