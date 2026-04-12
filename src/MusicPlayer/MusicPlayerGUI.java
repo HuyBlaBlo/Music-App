@@ -67,8 +67,9 @@ public class MusicPlayerGUI extends JFrame{
 		// set defaule path for file explorer
 		jFileChooser.setCurrentDirectory(new File("src/asset"));
 		
-		// filter file chooser to only see .mp3 file
+		//filter file chooser to only see .mp3 file
 		jFileChooser.setFileFilter(new FileNameExtensionFilter("MP3","mp3"));
+
 		addGUIComponents();
 	}
 
