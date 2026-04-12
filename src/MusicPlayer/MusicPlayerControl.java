@@ -25,10 +25,11 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 		Object object = e.getActionCommand();
 		
 		if(object.equals(MusicPlayerGUI.LOAD_SONG_COMMAND)) {
-			gui.getjFileChooser().showOpenDialog(gui);
+			// return a number to us, to let us know what player did
+			int result = gui.getjFileChooser().showOpenDialog(gui); //
 			File selectedFile = gui.getjFileChooser().getSelectedFile();
 			
-			if(selectedFile!=null) {
+			if(selectedFile!=null && result == JFileChooser.APPROVE_OPTION) {
 				Song song = new Song(selectedFile.getPath());
 				
 				//update song title and artist of the song
