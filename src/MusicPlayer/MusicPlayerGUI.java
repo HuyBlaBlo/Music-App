@@ -3,12 +3,14 @@ package MusicPlayer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,6 +25,28 @@ public class MusicPlayerGUI extends JFrame{
 	public static final Color FRAME_COLOR = Color.BLACK;
 	public static final Color TEXT_COLOR = Color.WHITE;
 	
+	// actioncommand for all buttons
+	public static final String LOAD_SONG_COMMAND = "LOAD_SONG";
+	public static final String LOAD_PLAYLIST_COMMAND = "LOAD_PLAYLIST";
+	public static final String CREATE_PLAYLIST_COMMAND = "CREATE_PLAYLIST";
+    public static final String PLAY_COMMAND = "PLAY";
+    public static final String PAUSE_COMMAND = "PAUSE";
+    public static final String NEXT_COMMAND = "NEXT";
+    public static final String PREV_COMMAND = "PREV";
+    
+	private MusicPlayer musicPlayer;
+
+	// alow to us file explorer in app
+	private JFileChooser jFileChooser;
+	private JMenuItem loadSong;
+	private JMenuItem createPlaylist;
+	private JMenuItem loadPlaylist;
+	private JButton prevButton;
+	private JButton playButton;
+	private JButton pauseButton;
+	private JButton nextButton;
+	private JLabel songTitle;
+	private JLabel artistName;
 	
 	public MusicPlayerGUI() {
 		setTitle("Music Player");
@@ -34,6 +58,11 @@ public class MusicPlayerGUI extends JFrame{
 		
 		// change the frame color
 		getContentPane().setBackground(FRAME_COLOR);
+		
+		jFileChooser = new JFileChooser();
+		// set defaule path for file explorer
+		jFileChooser.setCurrentDirectory(new File("src/asset"));
+		
 		addGUIComponents();
 	}
 
@@ -49,7 +78,7 @@ public class MusicPlayerGUI extends JFrame{
 		add(songImage);
 		
 		// song title
-		JLabel songTitle = new JLabel("Song Title", JLabel.CENTER);
+		songTitle = new JLabel("Song Title", JLabel.CENTER);
 		//position
 		songTitle.setBounds(0,300,getWidth()-10, 30);
 		songTitle.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -57,7 +86,7 @@ public class MusicPlayerGUI extends JFrame{
 		add(songTitle);
 
 		// artist name;
-		JLabel artistName = new JLabel("Artist Name", JLabel.CENTER);
+		artistName = new JLabel("Artist Name", JLabel.CENTER);
 		//position
 		artistName.setBounds(0,330,getWidth()-10, 30);
 		artistName.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -88,15 +117,19 @@ public class MusicPlayerGUI extends JFrame{
 		menuBar.add(songMenu);
 		
 		//add the load song item in the songMenu
-		JMenuItem loadSong = new JMenuItem("Load Song");
+		loadSong = new JMenuItem("Load Song");
+		loadSong.setActionCommand(LOAD_SONG_COMMAND);
 		songMenu.add(loadSong);
 		
 		JMenu playlistMenu = new JMenu("Play list");
 		menuBar.add(playlistMenu);
 		
-		JMenuItem createPlaylist = new JMenuItem("Create Playlist");
+		createPlaylist = new JMenuItem("Create Playlist");
+		createPlaylist.setActionCommand(CREATE_PLAYLIST_COMMAND);
 		playlistMenu.add(createPlaylist);
-		JMenuItem loadPlaylist = new JMenuItem("Load Playlist");
+		
+		loadPlaylist = new JMenuItem("Load Playlist");
+		loadPlaylist.setActionCommand(LOAD_PLAYLIST_COMMAND);
 		playlistMenu.add(loadPlaylist); 
 		
 		
@@ -120,39 +153,71 @@ public class MusicPlayerGUI extends JFrame{
 		btnsPanel.setBackground(null);
 		
 		//previous button
-		JButton prevButton = new JButton(loadImage("src/asset/previous.png"));
+		prevButton = new JButton(loadImage("src/asset/previous.png"));
 		prevButton.setBorderPainted(false);
 		prevButton.setContentAreaFilled(false);
 		prevButton.setFocusPainted(false);
 		prevButton.setBackground(null);
+		prevButton.setActionCommand(PREV_COMMAND);
 		btnsPanel.add(prevButton);
 		
 		//play button
-		JButton playButton = new JButton(loadImage("src/asset/play.png"));
+		playButton = new JButton(loadImage("src/asset/play.png"));
 		playButton.setBorderPainted(false);
 		playButton.setContentAreaFilled(false);
 		playButton.setFocusPainted(false);
 		playButton.setBackground(null);
+		playButton.setActionCommand(PLAY_COMMAND);
 		btnsPanel.add(playButton);
 		
 		//pause button
-		JButton pauseButton = new JButton(loadImage("src/asset/pause.png"));
+		pauseButton = new JButton(loadImage("src/asset/pause.png"));
 		pauseButton.setBorderPainted(false);
 		pauseButton.setContentAreaFilled(false);
 		pauseButton.setFocusPainted(false);
 		pauseButton.setVisible(false);
 		pauseButton.setBackground(null);
+		pauseButton.setActionCommand(PAUSE_COMMAND);
 		btnsPanel.add(pauseButton);
 		
 		
-		JButton nextButton = new JButton(loadImage("src/asset/next.png"));
+		nextButton = new JButton(loadImage("src/asset/next.png"));
 		nextButton.setBorderPainted(false);
 		nextButton.setContentAreaFilled(false);
 		nextButton.setFocusPainted(false);
 		nextButton.setBackground(null);
+		nextButton.setActionCommand(NEXT_COMMAND);
 		btnsPanel.add(nextButton);
 		
 		add(btnsPanel);
 	}
+	
+	
+	public void addActionListener(ActionListener actionListener) {
+		loadPlaylist.addActionListener(actionListener);
+		loadSong.addActionListener(actionListener);
+		createPlaylist.addActionListener(actionListener);
+		playButton.addActionListener(actionListener);
+		pauseButton.addActionListener(actionListener);
+		prevButton.addActionListener(actionListener);
+		nextButton.addActionListener(actionListener);
+		
+	}
 
+
+	public JFileChooser getjFileChooser() {
+		return jFileChooser;
+	}
+
+	// get JChooser to alow MusicPlayerControl can use JChooser
+	public void setjFileChooser(JFileChooser jFileChooser) {
+		this.jFileChooser = jFileChooser;
+	}
+
+	// update titleSong and artistSong
+	public void updateSongInf(Song song) {
+		songTitle.setText(song.getSongTitle());
+		artistName.setText(song.getSongArtist());
+	}
+	
 }
