@@ -8,7 +8,12 @@ public class App {
 			
 			@Override
 			public void run() {
-				new MusicPlayerGUI().setVisible(true);				
+//				new MusicPlayerGUI().setVisible(true);				
+				
+				// this is way how to test Song class
+				
+				Song song  = new Song("src/asset/Auld Lang Syne (Instrumental) - Jingle Punks.mp3");
+				System.out.println(song);
 			}
 		});
 	}
