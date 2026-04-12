@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToolBar;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MusicPlayerGUI extends JFrame{
 	// color configuration
@@ -48,6 +49,9 @@ public class MusicPlayerGUI extends JFrame{
 	private JLabel songTitle;
 	private JLabel artistName;
 	
+	// set btnsPanel to variable global to e 
+	private JPanel btnsPanel;
+	
 	public MusicPlayerGUI() {
 		setTitle("Music Player");
 		setSize(400,600);
@@ -63,6 +67,8 @@ public class MusicPlayerGUI extends JFrame{
 		// set defaule path for file explorer
 		jFileChooser.setCurrentDirectory(new File("src/asset"));
 		
+		// filter file chooser to only see .mp3 file
+		jFileChooser.setFileFilter(new FileNameExtensionFilter("MP3","mp3"));
 		addGUIComponents();
 	}
 
@@ -148,7 +154,7 @@ public class MusicPlayerGUI extends JFrame{
 	}
 	
 	private void addBtns() {
-		JPanel btnsPanel = new JPanel();
+		btnsPanel = new JPanel();
 		btnsPanel.setBounds(0, 440, getWidth(), 80);
 		btnsPanel.setBackground(null);
 		
@@ -220,4 +226,36 @@ public class MusicPlayerGUI extends JFrame{
 		artistName.setText(song.getSongArtist());
 	}
 	
+	//reference to play button from pause button
+	public void enablePauseAndDisablePlay() {
+//		JButton playButton = (JButton) btnsPanel.getComponent(1);
+//		JButton pauseButton = (JButton) btnsPanel.getComponent(2);
+//
+//		// turn off play button
+//		playButton.setVisible(false);
+//		
+//		//turn on pause button
+//		pauseButton.setVisible(true);
+		if(playButton!=null && pauseButton!=null) {
+			playButton.setVisible(false);
+			pauseButton.setVisible(true);
+			
+			//Update the interface for btnsPanel
+			btnsPanel.revalidate();
+			btnsPanel.repaint();
+		}
+	}
+	
+	//reference to pause button from play button
+		public void enablePlayAndDisablePause() {
+			
+			if(playButton!=null && pauseButton!=null) {
+				playButton.setVisible(true);
+				pauseButton.setVisible(false);
+				
+				//Update the interface for btnsPanel
+				btnsPanel.revalidate();
+				btnsPanel.repaint();
+			}
+		}
 }

@@ -27,8 +27,14 @@ public class MusicPlayerControl implements ActionListener{
 			
 			if(selectedFile!=null) {
 				Song song = new Song(selectedFile.getPath());
+				
+				//update song title and artist of the song
 				gui.updateSongInf(song);
+				// load the song anh play that song
 				player.loadSong(song);
+				
+				//toggle on pause button and toggle off start button
+				gui.enablePauseAndDisablePlay();
 			}
 		}	
 	}
