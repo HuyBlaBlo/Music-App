@@ -5,6 +5,7 @@ import java.io.File;
 import com.mpatric.mp3agic.*;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 
@@ -13,12 +14,17 @@ public class Song {
 	private String songTitle;
 	private String songArtist;
 	private String songLength;
-
+	private Mp3File mp3File;
+	private double frameRatePerMilliSeconds;
 	// constructor
 	public Song(String filePath) {	
 		this.filePath = filePath;
 		// use jaudiotagger libary to create an audio object to read information of mp3 file
 		try {
+			
+			// get specific info about mp3 file
+			mp3File = new Mp3File(filePath);
+			frameRatePerMilliSeconds = (double) (mp3File.getFrameCount()/mp3File.getLengthInMilliseconds());
 			AudioFile audioFile = AudioFileIO.read(new File(filePath));
 			
 			Tag tag = audioFile.getTag();
@@ -34,6 +40,22 @@ public class Song {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Mp3File getMp3File() {
+		return mp3File;
+	}
+
+	public void setMp3File(Mp3File mp3File) {
+		this.mp3File = mp3File;
+	}
+
+	public double getFrameRatePerMilliSeconds() {
+		return frameRatePerMilliSeconds;
+	}
+
+	public void setFrameRatePerMilliSeconds(double frameRatePerMilliSeconds) {
+		this.frameRatePerMilliSeconds = frameRatePerMilliSeconds;
 	}
 
 	public String getFilePath() {

@@ -15,6 +15,9 @@ public class MusicPlayer {
 	
 	// pause flag use to indicate whether the music player has been pause 
 	private boolean isPause;
+	
+	//store last frame when the PlayBack is finished (use for pausing or resume the song)
+	private int currentFrame;
 	//constructor
 	public MusicPlayer() {
 		
@@ -23,6 +26,8 @@ public class MusicPlayer {
 	public void loadSong(Song song, PlaybackListener playbackListener) {
 		currentSong = song;
 		if(currentSong!=null) {
+			currentFrame = 0;
+			isPause = false;
 			playCurrentSong(playbackListener);
 		}
 	}
@@ -41,8 +46,10 @@ public class MusicPlayer {
 			advancedPlayer.setPlayBackListener(playbackListener);
 			//start music
 			startMusicThread();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		}
 	}
 
@@ -52,13 +59,20 @@ public class MusicPlayer {
 			@Override
 			public void run() {
 				try {
-					///play music
-					advancedPlayer.play();
+					if(isPause) {
+						// play song at the last frame
+						advancedPlayer.play(currentFrame, Integer.MAX_VALUE);
+					}
+					else {
+						// play music from the begining
+						advancedPlayer.play();
+					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		}).start();;
+		}).start();
 	}
 	
 	public void pauseSong(){
@@ -68,13 +82,32 @@ public class MusicPlayer {
 			stopSong();
 		}
 	}
+	
 	public void stopSong() {
 		if(advancedPlayer!=null) {
+			
 			advancedPlayer.stop();
 			advancedPlayer.close();
 			advancedPlayer = null;
 		}
 	}
+
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+
+	public void setCurrentFrame(int currentFrame) {
+		this.currentFrame = currentFrame;
+	}
+
+	public boolean isPause() {
+		return isPause;
+	}
+
+	public void setPause(boolean isPause) {
+		this.isPause = isPause;
+	}
+	
 }
 
 

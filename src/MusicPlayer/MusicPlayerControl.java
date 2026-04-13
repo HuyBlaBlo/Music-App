@@ -3,6 +3,7 @@ package MusicPlayer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.chrono.IsoChronology;
 
 import javax.swing.JFileChooser;
 
@@ -13,10 +14,12 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 	
 	private MusicPlayerGUI gui;
 	private MusicPlayer player;
+	private Song song;
 	
 	public MusicPlayerControl(MusicPlayerGUI gui,MusicPlayer player) {
 		this.player = player;
 		this.gui = gui;
+		this.song = song;
 		
 		this.gui.addActionListener(this);
 	}
@@ -59,8 +62,14 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 	// this method gets called when start the song
 	@Override
 	public void playbackFinished(PlaybackEvent evt) {
-		System.out.println("Finished");
+		// get the last frame when the song pausing 
+		if(player.isPause()) {
+			int newFrame = (int) ((double) evt.getFrame() * song.getFrameRatePerMilliSeconds());
+			player.setCurrentFrame(newFrame);
+			System.out.println(player.getCurrentFrame());
+		}
 	}
+	
 	
 	//this method gets called when the song finished or the player gets close
 	@Override

@@ -10,7 +10,8 @@ public class App {
 			public void run() {
 				MusicPlayer player = new MusicPlayer();
 				
-				MusicPlayerGUI gui = new MusicPlayerGUI();				
+				MusicPlayerGUI gui = new MusicPlayerGUI();	
+				
 				
 				MusicPlayerControl control = new MusicPlayerControl(gui, player);
 				
