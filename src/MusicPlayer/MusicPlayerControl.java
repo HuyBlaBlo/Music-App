@@ -14,12 +14,10 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 	
 	private MusicPlayerGUI gui;
 	private MusicPlayer player;
-	private Song song;
 	
-	public MusicPlayerControl(MusicPlayerGUI gui,MusicPlayer player) {
+	public MusicPlayerControl(MusicPlayerGUI gui,MusicPlayer player){
 		this.player = player;
 		this.gui = gui;
-		this.song = song;
 		
 		this.gui.addActionListener(this);
 	}
@@ -62,11 +60,17 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 	// this method gets called when start the song
 	@Override
 	public void playbackFinished(PlaybackEvent evt) {
+		Song currentSong = player.getCurrentSong();
 		// get the last frame when the song pausing 
 		if(player.isPause()) {
-			int newFrame = (int) ((double) evt.getFrame() * song.getFrameRatePerMilliSeconds());
-			player.setCurrentFrame(newFrame);
-			System.out.println(player.getCurrentFrame());
+			// getFrame() method gonna return millisecond of the mp3 file
+            int sessionMs = evt.getFrame();
+           
+            // parse millisecond to frame
+            int sessionFrames = (int) (sessionMs * currentSong.getFrameRatePerMilliSeconds());
+           
+            int absoluteFrame = player.getCurrentFrame() + sessionFrames;
+            player.setCurrentFrame(absoluteFrame);
 		}
 	}
 	
@@ -75,6 +79,7 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 	@Override
 	public void playbackStarted(PlaybackEvent evt) {
 		System.out.println("Start");
+		System.out.println(player.getCurrentFrame());
 	}
 	
 	

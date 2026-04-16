@@ -24,7 +24,7 @@ public class Song {
 			
 			// get specific info about mp3 file
 			mp3File = new Mp3File(filePath);
-			frameRatePerMilliSeconds = (double) (mp3File.getFrameCount()/mp3File.getLengthInMilliseconds());
+			frameRatePerMilliSeconds = (double) mp3File.getFrameCount()/mp3File.getLengthInMilliseconds();
 			AudioFile audioFile = AudioFileIO.read(new File(filePath));
 			
 			Tag tag = audioFile.getTag();

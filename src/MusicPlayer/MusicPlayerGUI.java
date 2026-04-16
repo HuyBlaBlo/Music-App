@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ public class MusicPlayerGUI extends JFrame{
 
 	// alow to us file explorer in app
 	private JFileChooser jFileChooser;
+	
 	private JMenuItem loadSong;
 	private JMenuItem createPlaylist;
 	private JMenuItem loadPlaylist;
@@ -51,6 +53,7 @@ public class MusicPlayerGUI extends JFrame{
 	
 	// set btnsPanel to variable global to e 
 	private JPanel btnsPanel;
+	private JSlider slider;
 	
 	public MusicPlayerGUI() {
 		setTitle("Music Player");
@@ -102,7 +105,7 @@ public class MusicPlayerGUI extends JFrame{
 		add(artistName);
 		
 		// add Slider
-		JSlider slider = new JSlider(JSlider.HORIZONTAL,0,100,0);
+		slider = new JSlider(JSlider.HORIZONTAL,0,100,0);
 		slider.setBounds(getWidth()/2 - 150, 386, 300, 40);
 		slider.setBackground(FRAME_COLOR);
 		add(slider);
@@ -222,6 +225,15 @@ public class MusicPlayerGUI extends JFrame{
 		this.jFileChooser = jFileChooser;
 	}
 
+	public void playBackSlider(Song song) {
+		// update max count of slider
+		slider.setMaximum(song.getMp3File().getFrameCount());
+		
+		//create the length lable
+		Hashtable<Integer, JLabel> lableTable = new Hashtable<Integer, JLabel>();
+		JLabel begginingJLabel = new JLabel("00:00");
+		begginingJLabel.setFont(new Font("Arial", Font.BOLD, 18));
+	}
 	// update titleSong and artistSong
 	public void updateSongInf(Song song) {
 		songTitle.setText(song.getSongTitle());

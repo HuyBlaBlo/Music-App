@@ -1,10 +1,14 @@
 package MusicPlayer;
 
 import java.io.BufferedInputStream;
+
 import java.io.FileInputStream;
+
+import javax.swing.JOptionPane;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import javazoom.jl.player.advanced.PlaybackListener;
+
 
 public class MusicPlayer {
 	// this class to store our's song details
@@ -33,6 +37,9 @@ public class MusicPlayer {
 	}
 	
 	public void playCurrentSong(PlaybackListener playbackListener) {
+		if(currentSong == null) {
+			return;
+		}
 		try {
 			
 			// read .mp3 audio data
@@ -66,6 +73,7 @@ public class MusicPlayer {
 					else {
 						// play music from the begining
 						advancedPlayer.play();
+						
 					}
 					
 				} catch (Exception e) {
@@ -107,6 +115,15 @@ public class MusicPlayer {
 	public void setPause(boolean isPause) {
 		this.isPause = isPause;
 	}
+
+	public Song getCurrentSong() {
+		return currentSong;
+	}
+
+	public void setCurrentSong(Song currentSong) {
+		this.currentSong = currentSong;
+	}
+	
 	
 }
 
