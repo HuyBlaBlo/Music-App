@@ -38,6 +38,7 @@ public class MusicPlayerControl extends PlaybackListener implements ActionListen
 				// load the song anh play that song
 				player.loadSong(song,this);
 				
+				gui.updatePlayBackSlider(song);
 				//toggle on pause button and toggle off start button
 				gui.enablePauseAndDisablePlay();
 			}

@@ -25,6 +25,8 @@ public class Song {
 			// get specific info about mp3 file
 			mp3File = new Mp3File(filePath);
 			frameRatePerMilliSeconds = (double) mp3File.getFrameCount()/mp3File.getLengthInMilliseconds();
+			songLength = convertToSongLengthFormat();
+			
 			AudioFile audioFile = AudioFileIO.read(new File(filePath));
 			
 			Tag tag = audioFile.getTag();
@@ -42,6 +44,13 @@ public class Song {
 		}
 	}
 
+	private String convertToSongLengthFormat() {
+		long min = mp3File.getLengthInSeconds() /60;
+		long sec = mp3File.getLengthInSeconds() % 60;
+		
+		return String.format("%02d:%02d", min,sec);
+	}
+	
 	public Mp3File getMp3File() {
 		return mp3File;
 	}

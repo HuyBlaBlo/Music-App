@@ -225,14 +225,27 @@ public class MusicPlayerGUI extends JFrame{
 		this.jFileChooser = jFileChooser;
 	}
 
-	public void playBackSlider(Song song) {
+	public void updatePlayBackSlider(Song song) {
 		// update max count of slider
 		slider.setMaximum(song.getMp3File().getFrameCount());
 		
 		//create the length lable
-		Hashtable<Integer, JLabel> lableTable = new Hashtable<Integer, JLabel>();
-		JLabel begginingJLabel = new JLabel("00:00");
-		begginingJLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+		
+		JLabel beginJLabel = new JLabel("00:00");
+		beginJLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		beginJLabel.setForeground(TEXT_COLOR);
+		
+		// time off song
+		JLabel endJLabel = new JLabel(song.getSongLength());
+		endJLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		endJLabel.setForeground(TEXT_COLOR);
+		
+		labelTable.put(0, beginJLabel);
+		labelTable.put(song.getMp3File().getFrameCount(),endJLabel);
+		
+		slider.setLabelTable(labelTable);
+		slider.setPaintLabels(true);
 	}
 	// update titleSong and artistSong
 	public void updateSongInf(Song song) {
