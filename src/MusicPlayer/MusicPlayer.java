@@ -11,6 +11,8 @@ import javazoom.jl.player.advanced.PlaybackListener;
 
 
 public class MusicPlayer {
+	
+	private MusicPlayerGUI gui;
 	// this class to store our's song details
 	private Song currentSong;
 	
@@ -22,9 +24,12 @@ public class MusicPlayer {
 	
 	//store last frame when the PlayBack is finished (use for pausing or resume the song)
 	private int currentFrame;
-	//constructor
-	public MusicPlayer() {
-		
+	
+	// track how many millisec has passed, its use for to update slider
+	private int currnentTimeInMills;
+	
+	public MusicPlayer(MusicPlayerGUI gui) {
+		this.gui = gui;
 	}
 	
 	public void loadSong(Song song, PlaybackListener playbackListener) {
@@ -54,10 +59,12 @@ public class MusicPlayer {
 			//start music
 			startMusicThread();
 			
+			startPlaybackSliderThread();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			
-		}
+		} 
 	}
 
 	private void startMusicThread() {
@@ -83,6 +90,33 @@ public class MusicPlayer {
 		}).start();
 	}
 	
+	
+	private void startPlaybackSliderThread() {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					while(!isPause) {
+						//increment currrent time mili
+						currnentTimeInMills++;
+						
+						//caculate millisec to frame because slider will be relative to frame not millisec
+						int caculateFrame = (int) ((double) currnentTimeInMills * currentSong.getFrameRatePerMilliSeconds());
+						
+						//uopdate GUI
+						gui.setPlayBackSliderValue(caculateFrame);
+						
+						Thread.sleep(1);
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();;
+	}
 	public void pauseSong(){
 		if(advancedPlayer!=null) {
 			isPause = true;

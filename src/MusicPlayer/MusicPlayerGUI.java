@@ -67,6 +67,7 @@ public class MusicPlayerGUI extends JFrame{
 		getContentPane().setBackground(FRAME_COLOR);
 		
 
+		musicPlayer = new MusicPlayer(this);
 		jFileChooser = new JFileChooser();
 		// set defaule path for file explorer
 		jFileChooser.setCurrentDirectory(new File("src/asset"));
@@ -246,6 +247,12 @@ public class MusicPlayerGUI extends JFrame{
 		
 		slider.setLabelTable(labelTable);
 		slider.setPaintLabels(true);
+	}
+	
+	
+	// this function will be used to update slider from the music class
+	public void setPlayBackSliderValue(int frame) {
+		slider.setValue(frame);
 	}
 	// update titleSong and artistSong
 	public void updateSongInf(Song song) {

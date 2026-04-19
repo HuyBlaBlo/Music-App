@@ -8,10 +8,10 @@ public class App {
 			
 			@Override
 			public void run() {
-				MusicPlayer player = new MusicPlayer();
 				
 				MusicPlayerGUI gui = new MusicPlayerGUI();	
 				
+				MusicPlayer player = new MusicPlayer(gui);			
 				
 				MusicPlayerControl control = new MusicPlayerControl(gui, player);
 				
